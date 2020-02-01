@@ -11,10 +11,10 @@ def getInput(prompt = ''):
     return input(prompt)
 
 def viewInBrowser(htmlFile):
-    browser = getInfo()[3]
+    browser = getInfo()[4]
     call([browser, htmlFile])
 
-# Returns java installation, submitter, testingurl, web browser location
+# Returns java installation, submitter, testingurl, snarfurl, web browser location
 def getInfo(filename = "web-cat.conf"):
     f = open(filename, "a+")
     f.close()
@@ -22,8 +22,13 @@ def getInfo(filename = "web-cat.conf"):
     contents = f.readlines()
     f.close()
     for i, s in enumerate(contents):
-        if "$lhs" in s:
+        if "$lhs" in s and "snarf" not in s:
             new = lhsurl
+        elif "$lhssnarf" in s:
+            lang = "python"
+            if "java" in s:
+                lang = "java"
+            new = f"http://205.173.41.10/{lang}snarf/snarf.xml"
         elif len(s) <=1:
             contents.pop(i)
             continue
@@ -41,9 +46,11 @@ def setInfo(filename = "web-cat.conf"):
     java_location = getInput("Java location? ")
     submitter_location = getInput("Submitter location? ")
     target_url = getInput("Target url? ")
+    snarf_url = getInput("Snarf url? ")
     web_browser_location = getInput("Web browser location? ")
     with open(filename, "w+") as fout:
         fout.write(java_location + '\n')
         fout.write(submitter_location + '\n')
         fout.write(target_url + '\n')
+        fout.write(snarf_url + '\n')
         fout.write(web_browser_location + '\n'*2)
