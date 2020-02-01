@@ -14,15 +14,14 @@ def snarfBrowser():
     for i, package in enumerate(root.findall("package")):
         name = package.get("name")
         description = package.find("description").text
-        url = package.find("entry").attrib[url]
+        url = package.find("entry").attrib["url"]
         urls.append(url)
         output(f"{i} {name}:\n\t{description}\n")
-    call(f"rm {snarffile}", shell=True)
+    call(f"rm '{snarffile}'", shell=True)
     return urls
 
 def main():
     u = snarfBrowser()
-    print(u)
 
 if __name__ == "__main__":
     main()

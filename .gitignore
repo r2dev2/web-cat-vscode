@@ -1,5 +1,7 @@
 *.xml
 *.conf
+*.zip
+*.html
 __pycache__/
 .vscode/
 Testing/*

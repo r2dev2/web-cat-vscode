@@ -23,16 +23,20 @@ def submit(javalocation, submitterlocation, url, assignment, username, password,
     return returnhtml.decode()[:-1]
 
 def main():
-    output(getTargets("/usr/bin/java", "/home/rbadhe/Webcat/lib/webcat-submitter-1.0.5.jar", url))
-    output(submit(
-        "/usr/bin/java",
-        "/home/rbadhe/Webcat/lib/webcat-submitter-1.0.5.jar",
-        lhsurl,
+    call("rm result.html", shell=True)
+    java, submitter, url, snarf, web_browser = getInfo()
+    html = submit(
+        java,
+        submitter,
+        url,
         testassignment,
-        "5180165",
+        getInput("Username? "),
         getpass(),
         testsubmission
-        ))
+    )
+    with open("result.html", "w+") as fout:
+        fout.write(html)
+    viewInBrowser("result.html")
     
 if __name__ == "__main__":
     main()
