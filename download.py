@@ -1,5 +1,6 @@
 import zipfile
 from subprocess import *
+import sys
 
 import wget
 
@@ -12,10 +13,13 @@ def extractZIP(url, directory):
         zip_ref.extractall(directory)
     call(f"rm '{zipname}'", shell=True)
 
-def main():
+def main(destination="Testing/"):
     urls = snarfBrowser()
     u = urls[int(getInput("Which snarf? "))]
-    extractZIP(u, "Testing/")
+    extractZIP(u, destination)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main(sys.argv[1])
+    except IndexError:
+        main()
